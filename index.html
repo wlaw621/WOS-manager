@@ -41,7 +41,6 @@
             gap: 15px;
         }
 
-        /* 공통 유리 패널 */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
@@ -57,7 +56,6 @@
 
         .header { text-align: center; margin-bottom: 20px; position: relative; }
         
-        /* 언어 토글 (알약 모양) */
         .lang-toggle {
             position: absolute; top: 0; left: 0;
             display: flex; background: var(--card-inner);
@@ -77,11 +75,9 @@
         .crown { color: #fbbf24; font-size: 24px; filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6)); }
         h1 { margin: 5px 0 0 0; font-size: 20px; font-weight: 700; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
 
-        /* 페이지 전환 섹션 */
         .page { display: none; flex-direction: column; height: 100%; }
         .page.active { display: flex; }
 
-        /* 상단 탭 & 설정 */
         .controls { margin-bottom: 20px; }
         .tab-bar { display: flex; gap: 6px; margin-bottom: 15px; }
         .tab {
@@ -102,7 +98,6 @@
             background: var(--frost-blue); box-shadow: 0 0 8px var(--frost-blue);
         }
 
-        /* 메인 예약 그리드 */
         .time-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -125,10 +120,9 @@
         .slot-mine { border-color: var(--frost-green); color: var(--frost-green); box-shadow: 0 0 10px rgba(74, 222, 128, 0.2); }
         .slot-taken { opacity: 0.3; cursor: not-allowed; border-color: transparent; color: var(--text-dim); }
 
-        /* 현황 리스트 페이지 스타일 */
         .status-list {
             flex-grow: 1; overflow-y: auto; padding-right: 4px;
-            max-height: 55vh; /* 스크롤바 활성화를 위한 최대 높이 설정 */
+            max-height: 55vh;
         }
         .status-list::-webkit-scrollbar { width: 3px; }
         .status-list::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
@@ -152,7 +146,6 @@
             background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.2);
         }
 
-        /* 하단 고정 버튼 */
         .footer { margin-top: auto; padding-top: 10px; }
         .btn-nav {
             width: 100%; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 15px;
@@ -163,7 +156,6 @@
         }
         .btn-nav:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); border-color: var(--frost-blue); }
 
-        /* 모달 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 1000;
@@ -186,7 +178,6 @@
         .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; }
         .btn-danger { background: #ef4444; color: #fff; }
 
-        /* 로딩 스피너 커스텀 */
         .loading {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
@@ -200,7 +191,6 @@
             animation: fadeInDown 0.3s ease;
         }
         @keyframes fadeInDown { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
-
     </style>
 </head>
 <body>
@@ -212,11 +202,9 @@
 <div id="custom-alert">이미 예약되어 있습니다</div>
 
 <div id="app">
-    <!-- 메인 예약 페이지 -->
     <div id="page-main" class="page active">
         <div class="glass-panel">
             <div class="header">
-                <!-- 언어 토글 -->
                 <div class="lang-toggle">
                     <div class="lang-btn active" onclick="setLang('KOR')" id="lang-kor">KOR</div>
                     <div class="lang-btn" onclick="setLang('ENG')" id="lang-eng">ENG</div>
@@ -237,9 +225,7 @@
                 </div>
             </div>
 
-            <div class="time-grid" id="grid">
-                <!-- JS 렌더링 -->
-            </div>
+            <div class="time-grid" id="grid"></div>
         </div>
         <div class="footer">
             <button class="btn-nav" onclick="switchPage('status')">
@@ -248,7 +234,6 @@
         </div>
     </div>
 
-    <!-- 예약 현황 상세 페이지 -->
     <div id="page-status" class="page">
         <div class="glass-panel">
             <div class="header">
@@ -260,9 +245,7 @@
                 <div style="font-size: 11px; color: var(--text-dim); margin-top: 10px;" id="status-day-label">DAY1 건설 기준</div>
             </div>
             
-            <div class="status-list" id="status-list">
-                <!-- JS 렌더링 -->
-            </div>
+            <div class="status-list" id="status-list"></div>
 
             <div style="text-align: center; padding-top: 15px;">
                 <button id="admin-link" style="background: none; border: none; color: var(--text-dim); font-size: 11px; text-decoration: underline; cursor: pointer;">관리자 모드 접속</button>
@@ -276,7 +259,6 @@
     </div>
 </div>
 
-<!-- 예약 입력 모달 -->
 <div class="modal-overlay" id="reserveOverlay">
     <div class="modal">
         <div class="modal-body">
@@ -291,7 +273,6 @@
     </div>
 </div>
 
-<!-- 예약 취소 확인 모달 -->
 <div class="modal-overlay" id="cancelOverlay">
     <div class="modal">
         <div class="modal-body">
@@ -306,7 +287,6 @@
     </div>
 </div>
 
-<!-- 관리자 비밀번호 입력 모달 -->
 <div class="modal-overlay" id="adminOverlay">
     <div class="modal">
         <div class="modal-body">
@@ -320,7 +300,6 @@
     </div>
 </div>
 
-<!-- 추가 예약 확인 모달 -->
 <div class="modal-overlay" id="extraConfirmOverlay">
     <div class="modal">
         <div class="modal-body">
@@ -335,7 +314,9 @@
 </div>
 
 <script>
-    // --- 번역 데이터 ---
+    // --- [중요] 여기에 복사한 구글 앱스 스크립트 배포 주소를 넣으세요 ---
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyF_oNqArXf8x3mapRTKJ4bb3aQJcyt1RvAFQOgRThLS9GOXUz6h9RnCUnWHAU3qs-9/exec';
+
     const i18n = {
         KOR: {
             mainTitle: "WOS 관직 예약 매니저",
@@ -405,50 +386,6 @@
         }
     };
 
-    function getMyKeys() {
-        try {
-            return JSON.parse(localStorage.getItem('wos_myKeys') || '[]');
-        } catch(e) { return []; }
-    }
-
-    function addToMyKeys(day, time) {
-        const keys = getMyKeys();
-        const key = `${day}:${time}`;
-        if (!keys.includes(key)) {
-            keys.push(key);
-            localStorage.setItem('wos_myKeys', JSON.stringify(keys));
-        }
-    }
-
-    function removeFromMyKeys(day, time) {
-        const keys = getMyKeys();
-        const key = `${day}:${time}`;
-        const filtered = keys.filter(k => k !== key);
-        localStorage.setItem('wos_myKeys', JSON.stringify(filtered));
-    }
-
-    function isMyReservation(day, time, player) {
-        if (state.myPlayerName && player === state.myPlayerName) return true;
-        const keys = getMyKeys();
-        return keys.includes(`${day}:${time}`);
-    }
-
-    function getAllianceColor(alliance) {
-        if (!alliance) return '#38bdf8';
-        const colors = [
-            '#38bdf8', '#4ade80', '#f472b6', '#fbbf24', 
-            '#a78bfa', '#fb923c', '#2dd4bf', '#f87171',
-            '#818cf8', '#34d399', '#fb7185', '#60a5fa'
-        ];
-        let hash = 0;
-        for (let i = 0; i < alliance.length; i++) {
-            hash = alliance.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const index = Math.abs(hash) % colors.length;
-        return colors[index];
-    }
-
-    // --- 초기 데이터 (Client-side) ---
     let state = {
         lang: 'KOR',
         currentDay: 'day1',
@@ -456,46 +393,93 @@
         myPlayerName: localStorage.getItem('wos_playerName') || null, 
         selectedTime: null,
         isAdmin: false, 
-        db: {
-            day1: {},
-            day2: {},
-            day4: {}
-        }
+        db: { day1: {}, day2: {}, day4: {} }
     };
 
-    // --- Loading Overlay ---
-    function showLoading(show) {
-        document.getElementById('loading').style.display = show ? 'flex' : 'none';
+    function getMyKeys() { try { return JSON.parse(localStorage.getItem('wos_myKeys') || '[]'); } catch(e) { return []; } }
+    function addToMyKeys(day, time) {
+        const keys = getMyKeys();
+        const key = `${day}:${time}`;
+        if (!keys.includes(key)) { keys.push(key); localStorage.setItem('wos_myKeys', JSON.stringify(keys)); }
+    }
+    function removeFromMyKeys(day, time) {
+        const keys = getMyKeys();
+        const key = `${day}:${time}`;
+        const filtered = keys.filter(k => k !== key);
+        localStorage.setItem('wos_myKeys', JSON.stringify(filtered));
+    }
+    function isMyReservation(day, time, player) {
+        if (state.myPlayerName && player === state.myPlayerName) return true;
+        return getMyKeys().includes(`${day}:${time}`);
+    }
+    function getAllianceColor(alliance) {
+        if (!alliance) return '#38bdf8';
+        const colors = ['#38bdf8', '#4ade80', '#f472b6', '#fbbf24', '#a78bfa', '#fb923c', '#2dd4bf', '#f87171', '#818cf8', '#34d399', '#fb7185', '#60a5fa'];
+        let hash = 0;
+        for (let i = 0; i < alliance.length; i++) hash = alliance.charCodeAt(i) + ((hash << 5) - hash);
+        return colors[Math.abs(hash) % colors.length];
     }
 
-    // --- Fetch Data from GAS ---
+    function showLoading(show) { document.getElementById('loading').style.display = show ? 'flex' : 'none'; }
+
     function refreshData() {
         showLoading(true);
-        console.log("Fetching data from server...");
-        google.script.run
-            .withSuccessHandler(data => {
-                try {
-                    console.log("Data received:", data);
-                    if (!data) throw new Error("데이터 응답이 비어있습니다.");
-                    state.db = data;
-                    renderGrid();
-                    if(document.getElementById('page-status').classList.contains('active')) renderStatusList();
-                    showLoading(false);
-                } catch (e) {
-                    console.error("Renderer Error:", e);
-                    alert("데이터 처리 오류: " + e.message);
+        fetch(`${GAS_URL}?action=getReservations`)
+            .then(res => res.json())
+            .then(data => {
+                state.db = data;
+                renderGrid();
+                if(document.getElementById('page-status').classList.contains('active')) renderStatusList();
+                showLoading(false);
+            })
+            .catch(err => {
+                console.error(err);
+                alert("서버 연결 실패. GAS 배포 설정을 확인하세요.");
+                showLoading(false);
+            });
+    }
+
+    function confirmReservation() {
+        const alliance = document.getElementById('inputAlliance').value.trim() || 'TNT';
+        const player = document.getElementById('inputPlayer').value.trim();
+        if (!player) return alert(i18n[state.lang].inputPlayerAlert);
+
+        state.myPlayerName = player;
+        localStorage.setItem('wos_playerName', player);
+        localStorage.setItem('wos_alliance', alliance);
+
+        showLoading(true);
+        const params = new URLSearchParams({ action: 'add', day: state.currentDay, time: state.selectedTime, alliance: alliance, player: player });
+
+        fetch(`${GAS_URL}?${params.toString()}`)
+            .then(res => res.json())
+            .then(res => {
+                if(res.success) {
+                    addToMyKeys(state.currentDay, state.selectedTime);
+                    closeModal();
+                    refreshData();
+                } else {
+                    alert(res.message);
                     showLoading(false);
                 }
             })
-            .withFailureHandler(err => {
-                console.error("Server Error:", err);
-                alert("서버 연결 실패: " + err.message + "\n\n1. 시트 권한을 확인하세요.\n2. 탭 이름이 정확한지 확인하세요.");
-                showLoading(false);
-            })
-            .getReservations();
+            .catch(() => { alert("오류 발생"); showLoading(false); });
     }
 
-    // --- 언어 설정 ---
+    function confirmCancel() {
+        showLoading(true);
+        const params = new URLSearchParams({ action: 'cancel', day: state.currentDay, time: state.selectedTime });
+
+        fetch(`${GAS_URL}?${params.toString()}`)
+            .then(res => res.json())
+            .then(() => {
+                removeFromMyKeys(state.currentDay, state.selectedTime);
+                closeCancelModal();
+                refreshData();
+            })
+            .catch(() => { alert("오류 발생"); showLoading(false); });
+    }
+
     function setLang(lang) {
         state.lang = lang;
         document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -534,7 +518,6 @@
         if(document.getElementById('page-status').classList.contains('active')) renderStatusList();
     }
 
-    // --- 페이지 전환 ---
     function switchPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(`page-${pageId}`).classList.add('active');
@@ -544,9 +527,8 @@
 
     function hasMyReservation() {
         for (let i = 0; i < 48; i++) {
-            const totalMin = i * 30;
-            const h = Math.floor(totalMin / 60);
-            const m = totalMin % 60;
+            const h = Math.floor((i * 30) / 60);
+            const m = (i * 30) % 60;
             const utcKey = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
             const data = state.db[state.currentDay][utcKey];
             if (data && isMyReservation(state.currentDay, utcKey, data.player)) return true;
@@ -554,19 +536,14 @@
         return false;
     }
 
-    // --- 메인 그리드 렌더링 ---
     function renderGrid() {
         const grid = document.getElementById('grid');
         grid.innerHTML = '';
-
         for (let i = 0; i < 48; i++) {
-            const totalMin = i * 30;
-            const h = Math.floor(totalMin / 60);
-            const m = totalMin % 60;
+            const h = Math.floor((i * 30) / 60);
+            const m = (i * 30) % 60;
             const utcKey = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-            
-            let displayH = h;
-            if (state.timezone === 'KST') displayH = (h + 9) % 24;
+            let displayH = state.timezone === 'KST' ? (h + 9) % 24 : h;
             const displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 
             const data = state.db[state.currentDay][utcKey];
@@ -576,233 +553,75 @@
 
             if (!data) {
                 slot.classList.add('slot-available');
-                slot.onclick = () => {
-                    if (hasMyReservation() && !state.isAdmin) {
-                        openExtraConfirmModal(utcKey);
-                    } else {
-                        openModal(utcKey);
-                    }
-                };
+                slot.onclick = () => (hasMyReservation() && !state.isAdmin) ? openExtraConfirmModal(utcKey) : openModal(utcKey);
             } else if (isMyReservation(state.currentDay, utcKey, data.player) || state.isAdmin) {
                 slot.classList.add('slot-mine');
                 if (!isMyReservation(state.currentDay, utcKey, data.player)) slot.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.3)'; 
                 slot.onclick = () => openCancelModal(utcKey);
-            } else {
-                slot.classList.add('slot-taken');
-            }
+            } else { slot.classList.add('slot-taken'); }
             grid.appendChild(slot);
         }
     }
 
-    // --- 현황 리스트 렌더링 ---
     function renderStatusList() {
         const list = document.getElementById('status-list');
-        const label = document.getElementById('status-day-label');
         const t = i18n[state.lang];
-        
-        label.innerText = `${t[state.currentDay]}${t.daySuffix} (${state.timezone})`;
+        document.getElementById('status-day-label').innerText = `${t[state.currentDay]}${t.daySuffix} (${state.timezone})`;
         list.innerHTML = '';
-
         for (let i = 0; i < 48; i++) {
-            const totalMin = i * 30;
-            const h = Math.floor(totalMin / 60);
-            const m = totalMin % 60;
+            const h = Math.floor((i * 30) / 60);
+            const m = (i * 30) % 60;
             const utcKey = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-            
-            let displayH = h;
-            if (state.timezone === 'KST') displayH = (h + 9) % 24;
+            let displayH = state.timezone === 'KST' ? (h + 9) % 24 : h;
             const displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-
             const data = state.db[state.currentDay][utcKey];
             const item = document.createElement('div');
             item.className = 'status-item';
-            
             const mine = data && isMyReservation(state.currentDay, utcKey, data.player);
             if(mine) item.classList.add('is-mine');
-            
             let infoHtml = `<span class="st-empty">${t.empty}</span>`;
             if (data) {
-                const mineClass = mine ? 'is-mine' : '';
-                const allianceColor = getAllianceColor(data.alliance);
-                const tagStyle = `style="color:${allianceColor}; border-color:${allianceColor}44; background:${allianceColor}22;"`;
-                infoHtml = `<div><span class="st-tag ${mineClass}" ${tagStyle}>${data.alliance}</span><strong class="${mineClass}">${data.player}</strong></div>`;
+                const color = getAllianceColor(data.alliance);
+                infoHtml = `<div><span class="st-tag" style="color:${color}; border-color:${color}44; background:${color}22;">${data.alliance}</span><strong>${data.player}</strong></div>`;
             }
-
-            item.innerHTML = `
-                <div class="st-time ${mine ? 'is-mine' : ''}">${displayTime}</div>
-                <div class="st-info">${infoHtml}</div>
-            `;
+            item.innerHTML = `<div class="st-time ${mine ? 'is-mine' : ''}">${displayTime}</div><div class="st-info">${infoHtml}</div>`;
             list.appendChild(item);
         }
     }
 
-    // --- 핸들러 ---
-    function setDay(day) {
-        state.currentDay = day;
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(`tab-${day}`).classList.add('active');
-        renderGrid();
-        if(document.getElementById('page-status').classList.contains('active')) renderStatusList();
-    }
+    function setDay(day) { state.currentDay = day; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById(`tab-${day}`).classList.add('active'); renderGrid(); }
+    function setTz(tz) { state.timezone = tz; document.querySelectorAll('.tz-btn').forEach(b => b.classList.remove('active')); document.getElementById(`tz-${tz.toLowerCase()}-main`).classList.add('active'); document.getElementById(`tz-${tz.toLowerCase()}-status`).classList.add('active'); renderGrid(); }
 
-    function setTz(tz) {
-        state.timezone = tz;
-        document.querySelectorAll('.tz-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(`tz-${tz.toLowerCase()}-main`).classList.add('active');
-        document.getElementById(`tz-${tz.toLowerCase()}-status`).classList.add('active');
-        
-        renderGrid();
-        if(document.getElementById('page-status').classList.contains('active')) renderStatusList();
-    }
-
-    // 예약 모달 관련
     function openModal(time) {
         state.selectedTime = time;
-        let displayTime = time;
-        if (state.timezone === 'KST') {
-            const [h, m] = time.split(':').map(Number);
-            const displayH = (h + 9) % 24;
-            displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-        }
-        document.getElementById('modalTitle').innerText = `${displayTime} ${i18n[state.lang].reserve}`;
+        let dTime = time;
+        if (state.timezone === 'KST') { const [h, m] = time.split(':').map(Number); dTime = `${String((h + 9) % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`; }
+        document.getElementById('modalTitle').innerText = `${dTime} ${i18n[state.lang].reserve}`;
         document.getElementById('reserveOverlay').style.display = 'flex';
-        // Auto-fill if remembered
         if(state.myPlayerName) document.getElementById('inputPlayer').value = state.myPlayerName;
-        const savedAlliance = localStorage.getItem('wos_alliance');
-        if(savedAlliance) document.getElementById('inputAlliance').value = savedAlliance;
+        if(localStorage.getItem('wos_alliance')) document.getElementById('inputAlliance').value = localStorage.getItem('wos_alliance');
     }
-
-    function closeModal() {
-        document.getElementById('reserveOverlay').style.display = 'none';
-    }
-
-    function confirmReservation() {
-        const alliance = document.getElementById('inputAlliance').value.trim() || 'TNT';
-        const player = document.getElementById('inputPlayer').value.trim();
-        if (!player) return alert(i18n[state.lang].inputPlayerAlert);
-
-        state.myPlayerName = player;
-        localStorage.setItem('wos_playerName', player);
-        localStorage.setItem('wos_alliance', alliance);
-
-        showLoading(true);
-        google.script.run
-            .withSuccessHandler(res => {
-                if(res.success) {
-                    addToMyKeys(state.currentDay, state.selectedTime);
-                    closeModal();
-                    refreshData();
-                } else {
-                    alert(res.message);
-                    showLoading(false);
-                }
-            })
-            .addReservation(state.currentDay, state.selectedTime, alliance, player);
-    }
-
-    // 취소 모달 관련
+    function closeModal() { document.getElementById('reserveOverlay').style.display = 'none'; }
     function openCancelModal(time) {
         state.selectedTime = time;
-        const t = i18n[state.lang];
-        let displayTime = time;
-        if (state.timezone === 'KST') {
-            const [h, m] = time.split(':').map(Number);
-            const displayH = (h + 9) % 24;
-            displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-        }
-        document.getElementById('cancelDesc').innerText = `${displayTime} ${t.manageTitle}`;
+        let dTime = time;
+        if (state.timezone === 'KST') { const [h, m] = time.split(':').map(Number); dTime = `${String((h + 9) % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`; }
+        document.getElementById('cancelDesc').innerText = `${dTime} ${i18n[state.lang].manageTitle}`;
         document.getElementById('cancelOverlay').style.display = 'flex';
     }
+    function closeCancelModal() { document.getElementById('cancelOverlay').style.display = 'none'; }
+    function openEditModal() { const data = state.db[state.currentDay][state.selectedTime]; if (!data) return closeCancelModal(); closeCancelModal(); openModal(state.selectedTime); document.getElementById('inputAlliance').value = data.alliance; document.getElementById('inputPlayer').value = data.player; }
+    function openAdminModal() { document.getElementById('adminPassword').value = ''; document.getElementById('adminOverlay').style.display = 'flex'; }
+    function closeAdminModal() { document.getElementById('adminOverlay').style.display = 'none'; }
+    function confirmAdminPassword() { if (document.getElementById('adminPassword').value === '1234') { state.isAdmin = true; alert(i18n[state.lang].adminAccessMsg); document.getElementById('admin-link').innerText = 'Admin Mode Active'; closeAdminModal(); renderGrid(); } else { alert(i18n[state.lang].wrongPassword); } }
+    function openExtraConfirmModal(time) { state.selectedTime = time; document.getElementById('extraConfirmOverlay').style.display = 'flex'; }
+    function closeExtraConfirmModal() { document.getElementById('extraConfirmOverlay').style.display = 'none'; }
+    function proceedWithExtraReservation() { closeExtraConfirmModal(); openModal(state.selectedTime); }
 
-    function openEditModal() {
-        const data = state.db[state.currentDay][state.selectedTime];
-        if (!data) return closeCancelModal();
-        
-        closeCancelModal();
-        openModal(state.selectedTime);
-        document.getElementById('inputAlliance').value = data.alliance;
-        document.getElementById('inputPlayer').value = data.player;
-    }
-
-    function closeCancelModal() {
-        document.getElementById('cancelOverlay').style.display = 'none';
-    }
-
-    function confirmCancel() {
-        showLoading(true);
-        google.script.run
-            .withSuccessHandler(res => {
-                removeFromMyKeys(state.currentDay, state.selectedTime);
-                closeCancelModal();
-                refreshData();
-            })
-            .cancelReservation(state.currentDay, state.selectedTime);
-    }
-
-    // 관리자 모달 관련
-    function openAdminModal() {
-        document.getElementById('adminPassword').value = '';
-        document.getElementById('adminOverlay').style.display = 'flex';
-    }
-
-    function closeAdminModal() {
-        document.getElementById('adminOverlay').style.display = 'none';
-    }
-
-    function confirmAdminPassword() {
-        const pw = document.getElementById('adminPassword').value;
-        const t = i18n[state.lang];
-        if (pw === '1234') { 
-            state.isAdmin = true;
-            alert(t.adminAccessMsg);
-            document.getElementById('admin-link').innerText = state.lang === 'KOR' ? '관리자 모드 활성 중' : 'Admin Mode Active';
-            closeAdminModal();
-            renderGrid();
-        } else {
-            alert(t.wrongPassword);
-        }
-    }
-
-    // 추가 예약 확인 모달 관련
-    function openExtraConfirmModal(time) {
-        state.selectedTime = time;
-        document.getElementById('extraConfirmOverlay').style.display = 'flex';
-    }
-
-    function closeExtraConfirmModal() {
-        document.getElementById('extraConfirmOverlay').style.display = 'none';
-    }
-
-    function proceedWithExtraReservation() {
-        closeExtraConfirmModal();
-        openModal(state.selectedTime);
-    }
-
-    // 커스텀 얼럿
-    function showCustomAlert(msg) {
-        const el = document.getElementById('custom-alert');
-        el.innerText = msg;
-        el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 2000);
-    }
-
-    // 초기 실행
     window.onload = function() {
         setLang('KOR');
         refreshData();
-        
-        // 관리자 모드 버튼 리스너
-        const setupAdmin = () => {
-            const adminBtn = document.getElementById('admin-link');
-            if (adminBtn) {
-                adminBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (state.isAdmin) return;
-                    openAdminModal();
-                });
-            }
-        };
-        setupAdmin();
+        document.getElementById('admin-link').addEventListener('click', (e) => { e.preventDefault(); if (!state.isAdmin) openAdminModal(); });
     };
 </script>
 </body>

@@ -590,7 +590,31 @@
     }
 
     function setDay(day) { state.currentDay = day; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById(`tab-${day}`).classList.add('active'); renderGrid(); }
-    function setTz(tz) { state.timezone = tz; document.querySelectorAll('.tz-btn').forEach(b => b.classList.remove('active')); document.getElementById(`tz-${tz.toLowerCase()}-main`).classList.add('active'); document.getElementById(`tz-${tz.toLowerCase()}-status`).classList.add('active'); renderGrid(); }
+    function setTz(tz) {
+    // 1. 상태 업데이트
+    state.timezone = tz;
+
+    // 2. 모든 타임존 버튼의 active 클래스 초기화 및 설정
+    // 메인 페이지와 현황 페이지 버튼 모두를 찾아서 업데이트합니다.
+    const tzButtons = document.querySelectorAll('.tz-btn');
+    tzButtons.forEach(btn => {
+        // 버튼의 ID가 선택된 tz와 일치하는지 확인 (예: tz-utc-main, tz-utc-status)
+        if (btn.id.includes(tz.toLowerCase())) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // 3. 현재 활성화된 페이지에 따라 렌더링 호출
+    // 메인 그리드 갱신
+    renderGrid();
+    
+    // 전체 현황 리스트 갱신 (리스트가 존재하는 경우에만)
+    if (document.getElementById('page-status').classList.contains('active')) {
+        renderStatusList();
+    }
+}
 
     function openModal(time) {
         state.selectedTime = time;

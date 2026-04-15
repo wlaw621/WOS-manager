@@ -566,43 +566,50 @@
     }
 
     function renderStatusList() {
-        const list = document.getElementById('status-list');
-        const t = i18n[state.lang];
-        document.getElementById('status-day-label').innerText = `${t[state.currentDay]}${t.daySuffix} (${state.timezone})`;
-        list.innerHTML = '';
-        for (let i = 0; i < 48; i++) {
-            const h = Math.floor((i * 30) / 60);
-            const m = (i * 30) % 60;
-            const utcKey = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-            let displayH = state.timezone === 'KST' ? (h + 9) % 24 : h;
-            const displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-            const data = state.db[state.currentDay][utcKey];
-            const item = document.createElement('div');
-            item.className = 'status-item';
-            const mine = data && isMyReservation(state.currentDay, utcKey, data.player);
-            if(mine) item.classList.add('is-mine');
-            let infoHtml = `<span class="st-empty">${t.empty}</span>`;
-            if (data) {
-                const color = getAllianceColor(data.alliance);
-                infoHtml = `<div><span class="st-tag" style="color:${color}; border-color:${color}44; background:${color}22;">${data.alliance}</span><strong>${data.player}</strong></div>`;
-            }
-            item.innerHTML = `<div class="st-time ${mine ? 'is-mine' : ''}">${displayTime}</div><div class="st-info">${infoHtml}</div>`;
-            list.appendChild(item);
+    const list = document.getElementById('status-list');
+    const label = document.getElementById('status-day-label');
+    const t = i18n[state.lang];
+    
+    // 상단 라벨에 현재 선택된 타임존 표시 업데이트
+    label.innerText = `${t[state.currentDay]}${t.daySuffix} (${state.timezone})`;
+    list.innerHTML = '';
+
+    for (let i = 0; i < 48; i++) {
+        const totalMin = i * 30;
+        const h = Math.floor(totalMin / 60);
+        const m = totalMin % 60;
+        const utcKey = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        
+        // --- 시간 변환 핵심 로직 ---
+        let displayH = h;
+        if (state.timezone === 'KST') {
+            displayH = (h + 9) % 24; // KST는 UTC+9
         }
-    }
+        const displayTime = `${String(displayH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        // ------------------------
 
-    function setDay(day) { state.currentDay = day; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById(`tab-${day}`).classList.add('active'); renderGrid(); }
-    function setTz(tz) { state.timezone = tz; document.querySelectorAll('.tz-btn').forEach(b => b.classList.remove('active')); document.getElementById(`tz-${tz.toLowerCase()}-main`).classList.add('active'); document.getElementById(`tz-${tz.toLowerCase()}-status`).classList.add('active'); renderGrid(); }
+        const data = state.db[state.currentDay][utcKey];
+        const item = document.createElement('div');
+        item.className = 'status-item';
+        
+        const mine = data && isMyReservation(state.currentDay, utcKey, data.player);
+        if(mine) item.classList.add('is-mine');
+        
+        let infoHtml = `<span class="st-empty">${t.empty}</span>`;
+        if (data) {
+            const mineClass = mine ? 'is-mine' : '';
+            const allianceColor = getAllianceColor(data.alliance);
+            const tagStyle = `style="color:${allianceColor}; border-color:${allianceColor}44; background:${allianceColor}22;"`;
+            infoHtml = `<div><span class="st-tag ${mineClass}" ${tagStyle}>${data.alliance}</span><strong class="${mineClass}">${data.player}</strong></div>`;
+        }
 
-    function openModal(time) {
-        state.selectedTime = time;
-        let dTime = time;
-        if (state.timezone === 'KST') { const [h, m] = time.split(':').map(Number); dTime = `${String((h + 9) % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`; }
-        document.getElementById('modalTitle').innerText = `${dTime} ${i18n[state.lang].reserve}`;
-        document.getElementById('reserveOverlay').style.display = 'flex';
-        if(state.myPlayerName) document.getElementById('inputPlayer').value = state.myPlayerName;
-        if(localStorage.getItem('wos_alliance')) document.getElementById('inputAlliance').value = localStorage.getItem('wos_alliance');
+        item.innerHTML = `
+            <div class="st-time ${mine ? 'is-mine' : ''}">${displayTime}</div>
+            <div class="st-info">${infoHtml}</div>
+        `;
+        list.appendChild(item);
     }
+}
     function closeModal() { document.getElementById('reserveOverlay').style.display = 'none'; }
     function openCancelModal(time) {
         state.selectedTime = time;
